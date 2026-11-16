@@ -22,7 +22,9 @@ The browser connects out to `/ws` and authenticates with a token. The agent conn
 
 ## Install
 
-Download `chrome-mcp-server-lastest.zip` from `releases/chrome-extension/latest/` and unzip it, or build it yourself (see below).
+Unzip [chrome-mcp-server-lastest.zip](releases/chrome-extension/latest/chrome-mcp-server-lastest.zip) from the repository, or build it yourself (see below).
+
+That archive is a build artifact committed to the repo, not a GitHub Release attachment. It is refreshed by `pnpm release`, so a fresh clone carries a working build and the deployment tooling in the infra project finds it at a stable path. If you change extension sources, rebuild and commit the archive instead of editing it by hand.
 
 1. Open `chrome://extensions/`.
 2. Enable **Developer mode**.
@@ -157,7 +159,7 @@ More detail is in [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md).
 
 Расширение Chrome, которое управляет вашим браузером по запросу AI-агента. Оно подключается по WebSocket к вашему relay-серверу и выполняет браузерные инструменты, которые агент вызывает через `/mcp`. Отдельный локальный сервер не нужен.
 
-**Установка.** Скачайте `chrome-mcp-server-lastest.zip` из `releases/chrome-extension/latest/`, распакуйте, откройте `chrome://extensions/`, включите режим разработчика и нажмите «Загрузить распакованное расширение». Для локальной сборки выбирайте папку `app/chrome-extension/.output/chrome-mv3`.
+**Установка.** Распакуйте [chrome-mcp-server-lastest.zip](releases/chrome-extension/latest/chrome-mcp-server-lastest.zip) из репозитория, откройте `chrome://extensions/`, включите режим разработчика и нажмите «Загрузить распакованное расширение». Это готовый архив, лежащий прямо в репозитории (не GitHub Release): его обновляет `pnpm release`, поэтому свежий клон сразу содержит рабочую сборку. Для локальной сборки выбирайте папку `app/chrome-extension/.output/chrome-mv3`.
 
 **Настройка.** Откройте popup, укажите Relay URL и токен, нажмите «Подключиться». Поля Login нет: relay сам определяет пользователя по токену. Адрес можно вводить как `host:port` (получится `wss://host:port/ws`), как `https://host` (получится `wss://host/ws`) или как `http://host` (получится `ws://host/ws`). Язык переключается кнопками EN и RU. После подключения видны имя сессии, число инструментов и последняя ошибка.
 
@@ -173,4 +175,4 @@ MIT. See [LICENSE](LICENSE).
 
 This project is a derivative work of [mcp-chrome](https://github.com/hangwin/mcp-chrome) (Copyright (c) 2024 hangye, MIT). It was imported from the fork `vasily-fedorov/mcp-chrome` at commit `6aac27a` and then reduced to the relay-only design described above. See [NOTICE](NOTICE) for details.
 
-The GitHub archive is still published as `chrome-mcp-server-lastest.zip` with its historical typo, because the deployment tooling in the infra project reads that exact path. The product name in the popup and in the extension manifest is **Browser Relay**.
+The archive keeps the historical filename `chrome-mcp-server-lastest.zip`, typo included, because the deployment tooling in the infra project reads that exact path. The product name in the popup and in the extension manifest is **Browser Relay**.

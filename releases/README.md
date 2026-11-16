@@ -1,10 +1,12 @@
-# Browser Relay: latest release
+# Prebuilt extension archive
 
-Download the extension archive from:
+Download the archive directly from the repository:
 
 [chrome-mcp-server-lastest.zip](chrome-extension/latest/chrome-mcp-server-lastest.zip)
 
-The `lastest` spelling is intentional. The release tooling reads that exact filename, so do not rename the archive.
+This is a build artifact committed to git, not a GitHub Release attachment. There is no CI job that publishes it: `pnpm release` builds the extension and copies the zip here, and the result is committed together with the source change that produced it. That keeps a fresh clone usable without a build step, and it gives the deployment tooling in the infra project the stable path it reads.
+
+The `lastest` spelling is intentional. Do not rename the archive.
 
 ## Install
 
@@ -32,11 +34,11 @@ The extension can control the Chrome profile it is installed in, including pages
 
 ## По-русски
 
-Скачайте архив [chrome-mcp-server-lastest.zip](chrome-extension/latest/chrome-mcp-server-lastest.zip). Опечатка в имени файла оставлена намеренно: инструменты релиза используют именно этот путь.
+Архив лежит прямо в репозитории: [chrome-mcp-server-lastest.zip](chrome-extension/latest/chrome-mcp-server-lastest.zip). Это не GitHub Release, а собранный артефакт, который обновляет `pnpm release` и коммитит вместе с изменениями исходников. Опечатка в имени файла оставлена намеренно: инструменты развёртывания читают именно этот путь.
 
 **Установка.** Распакуйте архив, откройте `chrome://extensions/`, включите режим разработчика, нажмите «Загрузить распакованное расширение» и выберите папку.
 
-**Настройка.** Откройте popup, укажите Relay URL и токен, нажмите «Подключиться». Поля Login нет: relay определяет пользователя по токену. Язык переключается кнопками EN и RU. После подключения видны имя сессии и число инструментов.
+**Настройка.** Откройте popup, укажите Relay URL и токен, нажмите «Подключиться». Поля Login нет: relay определяет пользователя по токену. Язык переключается кнопками EN и RU. После подключения видны имя сессии, число инструментов и последняя ошибка.
 
 **Если не работает.** Проверьте строку «Последняя ошибка» в popup, доступность relay и наличие токена в файле токенов на сервере. Ответ 503 означает, что расширение не подключено. Подробнее: [../docs/TROUBLESHOOTING.md](../docs/TROUBLESHOOTING.md).
 

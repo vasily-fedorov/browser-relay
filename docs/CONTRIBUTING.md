@@ -21,10 +21,12 @@ mcp-chrome/
 ├── packages/
 │   └── shared/             # tool schemas, relay message types, shared payloads
 ├── docs/
-└── releases/
+└── releases/               # committed build artifact (not a GitHub Release)
 ```
 
 The extension is a relay client. It has no separate local server. Changes that assume another UI surface or a local MCP port are out of scope.
+
+`releases/chrome-extension/latest/` holds the zip produced by `pnpm release`. Commit it together with the source change that changed the build, so a clone and the infra packaging script both stay in sync.
 
 ## Prerequisites
 
