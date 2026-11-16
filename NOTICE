@@ -1,0 +1,17 @@
+# NOTICE
+
+Browser Relay is a derivative work of **mcp-chrome**:
+
+- Upstream: https://github.com/hangwin/mcp-chrome
+- Copyright (c) 2024 hangye
+- License: MIT (see `LICENSE`)
+
+The code in this repository was imported from the fork
+https://github.com/vasily-fedorov/mcp-chrome at commit `6aac27a` and then
+reworked into a relay-only build: the local native bridge, sidepanel agent
+chat, workflow builder, web editor, quick panel, element markers, tab
+recorder, userscripts, semantic search and record-replay were removed, and the
+tool surface was reduced to the 23 tools that run over the relay.
+
+The original copyright notice and the MIT license text are retained in
+`LICENSE`, as the license requires.

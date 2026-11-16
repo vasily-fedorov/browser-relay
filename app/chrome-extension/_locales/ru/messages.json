@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "Browser Relay",
+    "description": "Название расширения"
+  },
+  "extensionDescription": {
+    "message": "Управление своим Chrome через удалённый relay",
+    "description": "Описание расширения"
+  },
+  "bookmarksBarLabel": {
+    "message": "Панель закладок",
+    "description": "Название папки панели закладок"
+  }
+}

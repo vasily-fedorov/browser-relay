@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "Browser Relay",
+    "description": "Extension name"
+  },
+  "extensionDescription": {
+    "message": "Control your own Chrome browser over a remote relay",
+    "description": "Extension description"
+  },
+  "bookmarksBarLabel": {
+    "message": "Bookmarks Bar",
+    "description": "Bookmarks bar folder name"
+  }
+}
