@@ -27,7 +27,7 @@ The relay answers `AUTH_ERROR` with `Invalid token` and closes the socket with c
 - The relay resolves the login from the token. There is no Login field, and entering a login name in the token field fails.
 - A missing token field produces `Missing token` and close code `4002`.
 - If the token file is missing or empty, the relay accepts any non-empty token as a development fallback. That is useful for local testing but means a production relay with an empty file is not protected. Populate the token file.
-- The relay itself does not return HTTP 401 on `/mcp`. A 401 response comes from something in front of it, such as a reverse proxy or an upstream gateway.
+- On `/mcp` the same condition is `401 Invalid or unknown token`. A `503` there means the token is registered but its browser is offline.
 
 ## HTTP 503 from `/mcp`
 
@@ -36,7 +36,7 @@ The response body says `No browser extension connected for this token`. The rela
 - Open the popup and connect the extension.
 - Check `/health` for the session count.
 - If the extension reconnected recently, wait a moment and retry. The relay registers the session only after `AUTH_OK`.
-- Remember that the relay falls back to the first connected session when the Bearer token does not match one. A 503 means there is no session at all, not just a token mismatch.
+- A `503` on a token you believe is registered means that token has no live browser, not that the request went somewhere else: the relay never substitutes another session.
 
 ## Status stuck at Authenticating
 

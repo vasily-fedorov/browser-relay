@@ -52,7 +52,3 @@ export function getAllSessions(): Session[] {
 export function getSessionCount(): number {
   return sessions.size;
 }
-
-export function getFirstSession(): Session | undefined {
-  return sessions.values().next().value;
-}

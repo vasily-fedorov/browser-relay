@@ -134,7 +134,7 @@ The complete parameter reference is in [docs/TOOLS.md](docs/TOOLS.md). A full bu
 - The token is the only credential. Anyone with it can drive that Chrome profile, so treat it like a password and rotate it if it leaks.
 - Use a dedicated Chrome profile for agent work. The extension can read history, bookmarks, cookies-backed requests, and page content.
 - Only `/ws` should be reachable from the public internet. Keep `/mcp` inside a private network, or put it behind an authenticating proxy, because it accepts tool calls for a connected browser.
-- When the Bearer token does not match a live session, the relay falls back to the first connected session. Do not expose `/mcp` to untrusted clients.
+- `/mcp` accepts only a token present in the relay's token file: an unknown token gets `401`, and a known token whose browser is offline gets `503`. A request never reaches a session that belongs to a different token.
 - TLS terminates at your reverse proxy. The extension uses `wss://` unless you explicitly enter an `http://` URL.
 
 ## Troubleshooting

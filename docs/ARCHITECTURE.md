@@ -95,7 +95,7 @@ Only one offscreen document exists. `utils/offscreen-manager.ts` creates it on d
 - `ws-server.ts` accepts connections on `/ws`. The first message must be `AUTH` with a token, otherwise the socket gets `AUTH_ERROR`. Sessions are keyed by token, and a new connection replaces the old one with close code `4000`. Unauthenticated sockets are closed after 15 seconds.
 - `sessions.ts` stores the live session per token: WebSocket, MCP server, MCP transport, connection time, and pending requests.
 - `mcp-manager.ts` creates one MCP `Server` per session. `tools/list` sends `LIST_TOOLS` to the extension and waits for `TOOLS_LIST`; `tools/call` sends `CALL_TOOL` and waits for `TOOL_RESULT`. Each pending request has a 60 second timeout and is resolved by `requestId`.
-- `index.ts` exposes `/mcp` over Streamable HTTP. It selects the session by Bearer token and returns `503` when no session exists. If the token does not match and at least one extension is connected, it falls back to the first session. `/health` reports status, session count, and uptime.
+- `index.ts` exposes `/mcp` over Streamable HTTP. Every method resolves the session through one helper: an unregistered token is `401`, a registered token with no live session is `503`, and a request never falls through to another token's session. `/health` reports status, session count, and uptime.
 
 ### Shared package
 

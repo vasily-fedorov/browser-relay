@@ -2,8 +2,8 @@ import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import { WebSocketServer } from 'ws';
 import { createWsServer } from './ws-server.js';
-import { getSession, getSessionCount, getFirstSession } from './sessions.js';
-import { loadTokens } from './auth.js';
+import { getSession, getSessionCount } from './sessions.js';
+import { loadTokens, validateToken } from './auth.js';
 import { createMcpServer } from './mcp-manager.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 
@@ -63,17 +63,31 @@ async function main() {
     console.log(`MCP transport (re)created for ${session.login}`);
   }
 
+  function mcpSession(
+    token: string,
+    reply: { code: (c: number) => { send: (b: unknown) => void } },
+    notConnected: string,
+  ): NonNullable<ReturnType<typeof getSession>> | undefined {
+    if (!validateToken(token).valid) {
+      reply.code(401).send({ error: 'Invalid or unknown token' });
+      return undefined;
+    }
+    const session = getSession(token);
+    if (!session) {
+      reply.code(503).send({ error: notConnected });
+      return undefined;
+    }
+    return session;
+  }
+
   fastify.post('/mcp', async (request, reply) => {
     const authHeader = request.headers['authorization'];
     let token = '';
     if (authHeader && authHeader.startsWith('Bearer ')) {
       token = authHeader.slice(7);
     }
-    const session = getSession(token) || (getSessionCount() > 0 ? getFirstSession() : undefined);
+    const session = mcpSession(token, reply, 'No browser extension connected for this token.');
     if (!session) {
-      reply.code(503).send({
-        error: 'No browser extension connected for this token.',
-      });
       return;
     }
 
@@ -96,9 +110,8 @@ async function main() {
     if (authHeader && authHeader.startsWith('Bearer ')) {
       token = authHeader.slice(7);
     }
-    const session = getSession(token) || (getSessionCount() > 0 ? getFirstSession() : undefined);
+    const session = mcpSession(token, reply, 'No browser extension connected for this token');
     if (!session) {
-      reply.code(503).send({ error: 'No browser extension connected for this token' });
       return;
     }
 
@@ -124,9 +137,8 @@ async function main() {
     if (authHeader && authHeader.startsWith('Bearer ')) {
       token = authHeader.slice(7);
     }
-    const session = getSession(token) || (getSessionCount() > 0 ? getFirstSession() : undefined);
+    const session = mcpSession(token, reply, 'No browser extension connected for this token');
     if (!session) {
-      reply.code(503).send({ error: 'No browser extension connected for this token' });
       return;
     }
 
